@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ cipher_name }} - HUTECH Cryptography</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 30px auto;
+            padding: 30px;
+            max-width: 1000px;
+        }
+        
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .cipher-title {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .cipher-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .cipher-section {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .cipher-section:hover {
+            transform: translateY(-2px);
+        }
+        
+        .section-header {
+            padding: 20px 25px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .encrypt-header {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+        
+        .decrypt-header {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+        }
+        
+        .section-body {
+            padding: 25px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .action-btn {
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .encrypt-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+        
+        .decrypt-btn {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
+        .result-section {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid;
+        }
+        
+        .encrypt-result {
+            background-color: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .decrypt-result {
+            background-color: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        .result-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #495057;
+            word-break: break-all;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .matrix-display {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+        
+        .matrix-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .matrix-row {
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            margin: 5px 0;
+            color: #6f42c1;
+            font-weight: bold;
+        }
+        
+        .info-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .info-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .info-content {
+            line-height: 1.6;
+        }
+        
+        .info-content p {
+            margin-bottom: 12px;
+        }
+        
+        .info-content strong {
+            color: #ffd700;
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 15px;
+                padding: 20px;
+            }
+            
+            .cipher-title {
+                font-size: 2rem;
+            }
+            
+            .section-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Header Section -->
+            <div class="header-section">
+                <a href="/" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Về trang chủ
+                </a>
+                <h1 class="cipher-title">
+                    {{ cipher_icon }} {{ cipher_name.upper() }}
+                </h1>
+                <p class="cipher-description">{{ cipher_description }}</p>
+            </div>
+
+            <!-- Encryption Section -->
+            <div class="cipher-section">
+                <div class="section-header encrypt-header">
+                    <i class="fas fa-lock"></i>
+                    <span>MÃ HÓA (ENCRYPTION)</span>
+                </div>
+                <div class="section-body">
+                    <form method="POST" action="{{ encrypt_url }}" id="encryptForm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="form-label">
+                                    <i class="fas fa-file-text"></i> Plain Text:
+                                </label>
+                                <input type="text" class="form-control" name="plain_text" 
+                                       placeholder="Nhập văn bản cần mã hóa..." required
+                                       value="{{ request.form.get('plain_text', '') if request.method == 'POST' and request.endpoint.endswith('encrypt') else '' }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    <i class="fas fa-key"></i> Key:
+                                </label>
+                                <input type="{{ key_input_type }}" class="form-control" name="key" 
+                                       placeholder="{{ key_placeholder }}" required {{ key_attributes|safe }}
+                                       value="{{ request.form.get('key', '') if request.method == 'POST' and request.endpoint.endswith('encrypt') else '' }}">
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="action-btn encrypt-btn">
+                                <i class="fas fa-lock"></i>
+                                <span>Encrypt Now</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    {% if encrypt_result %}
+                    <div class="result-section encrypt-result">
+                        <h5><i class="fas fa-check-circle"></i> Kết quả mã hóa:</h5>
+                        <div class="result-text">{{ encrypt_result }}</div>
+                        {{ matrix_display_encrypt|safe }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Decryption Section -->
+            <div class="cipher-section">
+                <div class="section-header decrypt-header">
+                    <i class="fas fa-unlock"></i>
+                    <span>GIẢI MÃ (DECRYPTION)</span>
+                </div>
+                <div class="section-body">
+                    <form method="POST" action="{{ decrypt_url }}" id="decryptForm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label class="form-label">
+                                    <i class="fas fa-file-text"></i> Cipher Text:
+                                </label>
+                                <input type="text" class="form-control" name="cipher_text" 
+                                       placeholder="Nhập văn bản đã mã hóa..." required
+                                       value="{{ request.form.get('cipher_text', '') if request.method == 'POST' and request.endpoint.endswith('decrypt') else '' }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">
+                                    <i class="fas fa-key"></i> Key:
+                                </label>
+                                <input type="{{ key_input_type }}" class="form-control" name="key" 
+                                       placeholder="{{ key_placeholder }}" required {{ key_attributes|safe }}
+                                       value="{{ request.form.get('key', '') if request.method == 'POST' and request.endpoint.endswith('decrypt') else '' }}">
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="action-btn decrypt-btn">
+                                <i class="fas fa-unlock"></i>
+                                <span>Decrypt Now</span>
+                            </button>
+                        </div>
+                    </form>
+
+                    {% if decrypt_result %}
+                    <div class="result-section decrypt-result">
+                        <h5><i class="fas fa-check-circle"></i> Kết quả giải mã:</h5>
+                        <div class="result-text">{{ decrypt_result }}</div>
+                        {{ matrix_display_decrypt|safe }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Algorithm Information Section -->
+            <div class="info-section">
+                <div class="info-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Thông tin về {{ cipher_name }}</span>
+                </div>
+                <div class="info-content">
+                    <p><strong>{{ cipher_name }}</strong> {{ cipher_info }}</p>
+                    <p><strong>Cách hoạt động:</strong> {{ cipher_how_it_works }}</p>
+                    <p><strong>Ví dụ:</strong> {{ cipher_example }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading state to forms
+            const forms = document.querySelectorAll('#encryptForm, #decryptForm');
+            
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const button = form.querySelector('button[type="submit"]');
+                    const buttonText = button.querySelector('span');
+                    const buttonIcon = button.querySelector('i');
+                    
+                    // Add loading state
+                    button.classList.add('loading');
+                    buttonIcon.className = 'spinner';
+                    buttonText.textContent = 'Processing...';
+                    button.disabled = true;
+                    
+                    // Prevent double submission
+                    setTimeout(() => {
+                        button.disabled = false;
+                    }, 3000);
+                });
+            });
+
+            // Auto-focus on first input
+            const firstInput = document.querySelector('input[type="text"]');
+            if (firstInput) {
+                firstInput.focus();
+            }
+
+            // Copy result to clipboard on click
+            const resultTexts = document.querySelectorAll('.result-text');
+            resultTexts.forEach(result => {
+                result.style.cursor = 'pointer';
+                result.title = 'Click to copy';
+                
+                result.addEventListener('click', function() {
+                    navigator.clipboard.writeText(this.textContent).then(() => {
+                        // Show copied feedback
+                        const originalBg = this.style.backgroundColor;
+                        this.style.backgroundColor = '#d4edda';
+                        this.style.transform = 'scale(1.02)';
+                        
+                        setTimeout(() => {
+                            this.style.backgroundColor = originalBg;
+                            this.style.transform = 'scale(1)';
+                        }, 500);
+                    });
+                });
+            });
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + Enter to submit active form
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    const activeElement = document.activeElement;
+                    const form = activeElement.closest('form');
+                    if (form) {
+                        form.submit();
+                    }
+                }
+                
+                // Escape to go back home
+                if (e.key === 'Escape') {
+                    window.location.href = '/';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

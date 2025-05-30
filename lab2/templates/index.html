@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography Demo - HUTECH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding: 40px;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo-section img {
+            max-width: 300px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-section img:hover {
+            transform: scale(1.05);
+        }
+        
+        .main-title {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #6c757d;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #495057;
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+        
+        .cipher-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            height: 100%;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cipher-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .cipher-card .card-header {
+            padding: 25px 20px 20px;
+            border-bottom: none;
+            background: linear-gradient(135deg, var(--card-color), var(--card-color-dark));
+        }
+        
+        .cipher-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .cipher-title {
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 0;
+        }
+        
+        .cipher-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        
+        .cipher-btn {
+            margin: 20px;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .cipher-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Color schemes for each cipher */
+        .caesar-card {
+            --card-color: #007bff;
+            --card-color-dark: #0056b3;
+        }
+        
+        .vigener-card {
+            --card-color: #28a745;
+            --card-color-dark: #1e7e34;
+        }
+        
+        .railfence-card {
+            --card-color: #ffc107;
+            --card-color-dark: #e0a800;
+        }
+        
+        .transposition-card {
+            --card-color: #17a2b8;
+            --card-color-dark: #138496;
+        }
+        
+        .playfair-card {
+            --card-color: #6f42c1;
+            --card-color-dark: #59359a;
+        }
+        
+        .stats-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            margin: 0 20px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .footer-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            .cipher-card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-container">
+            <!-- Logo and Title Section -->
+            <div class="logo-section">
+                <img src="https://file1.hutech.edu.vn/file/editor/homepage/stories/hinh34/logo%20CMYK-01.png" 
+                     alt="HUTECH Logo" class="img-fluid">
+                <h1 class="main-title">CRYPTOGRAPHY DEMO</h1>
+                <p class="subtitle">BÀI THỰC HÀNH BẢO MẬT THÔNG TIN NÂNG CAO</p>
+                <p class="description">
+                    <i class="fas fa-shield-alt"></i> 
+                    Khám phá và thực hành các thuật toán mã hóa cổ điển
+                </p>
+            </div>
+
+            <!-- Cipher Cards Section -->
+            <div class="row">
+                <!-- Caesar Cipher -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card cipher-card caesar-card">
+                        <div class="card-header text-center">
+                            <div class="cipher-icon">🔐</div>
+                            <h5 class="cipher-title">Caesar Cipher</h5>
+                            <p class="cipher-description">Thuật toán mã hóa cổ điển bằng dịch chuyển ký tự</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="fas fa-key"></i> Key: Số nguyên (1-25)<br>
+                                    <i class="fas fa-clock"></i> Độ phức tạp: O(n)
+                                </small>
+                            </p>
+                            <a href="/caesar" class="btn btn-primary cipher-btn">
+                                <i class="fas fa-play"></i> Thực hành
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vigenère Cipher -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card cipher-card vigener-card">
+                        <div class="card-header text-center">
+                            <div class="cipher-icon">🔑</div>
+                            <h5 class="cipher-title">Vigenère Cipher</h5>
+                            <p class="cipher-description">Mã hóa đa ký tự sử dụng từ khóa</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="fas fa-key"></i> Key: Chuỗi ký tự<br>
+                                    <i class="fas fa-clock"></i> Độ phức tạp: O(n)
+                                </small>
+                            </p>
+                            <a href="/vigener" class="btn btn-success cipher-btn">
+                                <i class="fas fa-play"></i> Thực hành
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rail Fence Cipher -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card cipher-card railfence-card">
+                        <div class="card-header text-center">
+                            <div class="cipher-icon">🚂</div>
+                            <h5 class="cipher-title">Rail Fence Cipher</h5>
+                            <p class="cipher-description">Mã hóa hoán vị theo hình zigzag</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="fas fa-key"></i> Key: Số rail (2-10)<br>
+                                    <i class="fas fa-clock"></i> Độ phức tạp: O(n)
+                                </small>
+                            </p>
+                            <a href="/railfence" class="btn btn-warning cipher-btn">
+                                <i class="fas fa-play"></i> Thực hành
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transposition Cipher -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card cipher-card transposition-card">
+                        <div class="card-header text-center">
+                            <div class="cipher-icon">🔄</div>
+                            <h5 class="cipher-title">Transposition Cipher</h5>
+                            <p class="cipher-description">Mã hóa bằng hoán vị vị trí ký tự</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="fas fa-key"></i> Key: Số cột (2-10)<br>
+                                    <i class="fas fa-clock"></i> Độ phức tạp: O(n)
+                                </small>
+                            </p>
+                            <a href="/transposition" class="btn btn-info cipher-btn">
+                                <i class="fas fa-play"></i> Thực hành
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PlayFair Cipher -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card cipher-card playfair-card">
+                        <div class="card-header text-center">
+                            <div class="cipher-icon">📋</div>
+                            <h5 class="cipher-title">PlayFair Cipher</h5>
+                            <p class="cipher-description">Mã hóa sử dụng ma trận 5×5</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="fas fa-key"></i> Key: Từ khóa<br>
+                                    <i class="fas fa-clock"></i> Độ phức tạp: O(n)
+                                </small>
+                            </p>
+                            <a href="/playfair" class="btn btn-dark cipher-btn">
+                                <i class="fas fa-play"></i> Thực hành
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Testing -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card cipher-card" style="--card-color: #6c757d; --card-color-dark: #545b62;">
+                        <div class="card-header text-center">
+                            <div class="cipher-icon">🔧</div>
+                            <h5 class="cipher-title">API Testing</h5>
+                            <p class="cipher-description">Kiểm tra API endpoints</p>
+                        </div>
+                        <div class="card-body text-center">
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    <i class="fas fa-code"></i> REST API<br>
+                                    <i class="fas fa-database"></i> JSON Response
+                                </small>
+                            </p>
+                            <a href="/api/info" class="btn btn-secondary cipher-btn" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> API Info
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div class="stats-section">
+                <div class="row">
+                    <div class="col-md-3 col-6">
+                        <div class="stat-item">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Thuật toán</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Web-based</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-item">
+                            <div class="stat-number">API</div>
+                            <div class="stat-label">REST Endpoints</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-item">
+                            <div class="stat-number">HUTECH</div>
+                            <div class="stat-label">University</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Section -->
+            <div class="footer-section">
+                <p>
+                    <i class="fas fa-graduation-cap"></i> 
+                    Developed for BMTTNC Course - HUTECH University
+                </p>
+                <p>
+                    <small class="text-muted">
+                        <i class="fas fa-code"></i> Built with Flask & Bootstrap 
+                        | <i class="fas fa-shield-alt"></i> Educational Purpose Only
+                    </small>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click animation to cipher cards
+            const cards = document.querySelectorAll('.cipher-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('a')) {
+                        const link = card.querySelector('.cipher-btn');
+                        if (link) {
+                            link.click();
+                        }
+                    }
+                });
+            });
+
+            // Add loading animation to buttons
+            const buttons = document.querySelectorAll('.cipher-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                    this.disabled = true;
+                    
+                    // Re-enable after a short delay (will be overridden by page navigation)
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.disabled = false;
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
